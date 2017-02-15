@@ -2,6 +2,7 @@
 import pandas as pd
 from nltk.corpus import stopwords
 from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 class TextAnalyzer(object):
@@ -11,13 +12,12 @@ class TextAnalyzer(object):
         """Default constructor."""
         super(TextAnalyzer, self).__init__()
 
-    def ngrams(self, input_data, ngram):
+    def ngrams(self, text, ngram):
         """Function to get Ngram."""
-        input_data = input_data.split(' ')
-        output = []
-        for i in range(len(input_data) - ngram + 1):
-            output.append(input_data[i:i + ngram])
-        return output
+        # text = "this is a sentences and i want to ngramize it"
+        vectorizer = CountVectorizer(ngram_range=(1, ngram))
+        analyzer = vectorizer.build_analyzer()
+        return analyzer(text)
 
     def remove_stop_words(self, sentence):
         """Function to remove stop words."""
@@ -57,6 +57,3 @@ class TextAnalyzer(object):
             lambda x: pd.Series(self.calculate_frequency(x.lower(), top_10))),
             left_index=True, right_index=True)
         return data
-
-obj = TextAnalyzer()
-obj.most_frequent()
