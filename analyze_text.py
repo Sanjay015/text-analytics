@@ -1,5 +1,6 @@
 """Text Analytics Module."""
 import pandas as pd
+from textblob import TextBlob
 from nltk.corpus import stopwords
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
@@ -11,6 +12,16 @@ class TextAnalyzer(object):
     def __init__(self):
         """Default constructor."""
         super(TextAnalyzer, self).__init__()
+
+    def feature_extraction(self, sentences):
+        """Function to extract feature from a text."""
+        features = []
+        for sentence in sentences:
+            # sentence = sentence.encode('utf-8')
+            blob = TextBlob(sentence)
+            phrases = blob.noun_phrases
+            features.append({'sentence': sentence, 'features': phrases})
+        return features
 
     def ngrams(self, text, ngram):
         """Function to get Ngram."""
