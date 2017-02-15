@@ -5,11 +5,19 @@ from sklearn.datasets import fetch_20newsgroups
 
 
 class TextAnalyzer(object):
-    """TextAnalyzer class Module."""
+    """TextAnalyzer Module."""
 
     def __init__(self):
         """Default constructor."""
         super(TextAnalyzer, self).__init__()
+
+    def ngrams(self, input_data, ngram):
+        """Function to get Ngram."""
+        input_data = input_data.split(' ')
+        output = []
+        for i in range(len(input_data) - ngram + 1):
+            output.append(input_data[i:i + ngram])
+        return output
 
     def remove_stop_words(self, sentence):
         """Function to remove stop words."""
